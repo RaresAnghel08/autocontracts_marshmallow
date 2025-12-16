@@ -94,6 +94,8 @@ def generate_docx():
         (os.path.join(templates_dir, 'catering.docx'), "contract_catering_completat.docx")
     ]
 
+
+
     generated_pdfs = []
     # compile a regex to catch {{semnatura}} with optional spaces and case-insensitive
     sig_pattern = re.compile(r"\{\{\s*semnatura\s*\}\}", flags=re.IGNORECASE)
