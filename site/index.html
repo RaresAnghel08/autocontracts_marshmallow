@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Generare Contracte Marshmallow</title>
-  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
   <main class="container">
@@ -17,11 +17,15 @@
         <label>CNP copil:<input name="cnp_copil" required></label>
         <label>Data nașterii copil:<input type="date" name="data_nasterii_copil"></label>
         <label>Adresa copil:<input name="adresa_copil"></label>
+        <label>Naționalitate:<input name="nationalitate"></label>
+        <label>Religie:<input name="religie"></label>
       </fieldset>
 
       <fieldset>
         <legend>Date mamă</legend>
         <label>Nume mamă:<input name="nume_mama" required></label>
+        <label>Loc de muncă mamă:<input name="munca_mama"></label>
+        <label>Profesie mamă:<input name="profesie_mama"></label>
         <label>CNP mamă:<input name="cnp_mama"></label>
         <label>Serie buletin:<input name="serie_buletin_mama"></label>
         <label>Număr buletin:<input name="numar_buletin_mama"></label>
@@ -35,6 +39,8 @@
       <fieldset>
         <legend>Date tată</legend>
         <label>Nume tată:<input name="nume_tata"></label>
+        <label>Loc de muncă tată:<input name="munca_tata"></label>
+        <label>Profesie tată:<input name="profesie_tata"></label>
         <label>CNP tată:<input name="cnp_tata"></label>
         <label>Serie buletin:<input name="serie_buletin_tata"></label>
         <label>Număr buletin:<input name="numar_buletin_tata"></label>
@@ -58,7 +64,7 @@
       <fieldset>
         <legend>Consimțământ GDPR</legend>
         <p><input type="checkbox" name="1" value="da" required> Am fost informat că datele cu caracter personal sunt prelucrate în scopul și pentru îndeplinirea atribuțiilor legale ale instituției.</p>
-        <p><input type="checkbox" name="2" value="da" required> Am luat la cunoștință că informațiile din cererea depusă și din actele anexate la aceasta, vor fi prelucrate de instituție cu respectarea prevederilor Regulamentului (UE) 2016/679 privind protecția persoanelor fizice în ceea ce privește prelucrarea datelor cu caracter personal, și libera circulație a acestor date.</p>
+        <p><input type="checkbox" name="2" value="da" required> Am luat la cunoștință că informațiile din cererea depusă și din actele anexate la aceasta, vor fi prelucrate de instituție în conformitate cu legislația privind protecția datelor.</p>
         <p>Sunt de acord cu supravegherea video a copilului meu în sala de grupă: <select name="3" required><option value="da">Da</option><option value="nu">Nu</option></select></p>
       </fieldset>
 
