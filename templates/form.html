@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Generare Contracte Marshmallow</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="container">
+    <h1>Formular completare contracte Grădinița Marshmallow</h1>
+    <form action="/generate" method="post" class="form">
+      <fieldset>
+        <legend>Date copil</legend>
+        <label>Nume copil:<input name="nume_copil" required></label>
+        <label>Prenume copil:<input name="prenume_copil" required></label>
+        <label>CNP copil:<input name="cnp_copil" required></label>
+        <label>Data nașterii copil:<input type="date" name="data_nasterii_copil"></label>
+        <label>Adresa copil:<input name="adresa_copil"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Date mamă</legend>
+        <label>Nume mamă:<input name="nume_mama" required></label>
+        <label>CNP mamă:<input name="cnp_mama"></label>
+        <label>Serie buletin:<input name="serie_buletin_mama"></label>
+        <label>Număr buletin:<input name="numar_buletin_mama"></label>
+        <label>Eliberat de:<input name="eliberat_de_mama"></label>
+        <label>Data eliberării:<input type="date" name="data_eliberarii_mama"></label>
+        <label>Adresă mamă:<input name="adresa_mama"></label>
+        <label>Email mamă:<input name="email_mama"></label>
+        <label>Telefon mamă:<input name="telefon_mama"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Date tată</legend>
+        <label>Nume tată:<input name="nume_tata"></label>
+        <label>CNP tată:<input name="cnp_tata"></label>
+        <label>Serie buletin:<input name="serie_buletin_tata"></label>
+        <label>Număr buletin:<input name="numar_buletin_tata"></label>
+        <label>Eliberat de:<input name="eliberat_de_tata"></label>
+        <label>Data eliberării:<input type="date" name="data_eliberarii_tata"></label>
+        <label>Adresă tată:<input name="adresa_tata"></label>
+        <label>Email tată:<input name="email_tata"></label>
+        <label>Telefon tată:<input name="telefon_tata"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Alte informații</legend>
+        <label>Telefon bunici:<input name="telefon_bunici"></label>
+        <label>Telefon urgență:<input name="tel_urgenta"></label>
+        <label>Probleme medicale:<input name="probleme_medicale"></label>
+        <label>Alergii:<input name="alergii"></label>
+        <label>Persoane autorizate preluare copil:<input name="persoane_autorizate"></label>
+        <label>Alte observații:<input name="alte_observatii"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Consimțământ GDPR</legend>
+        <p><input type="checkbox" name="1" value="da" required> Am fost informat că datele cu caracter personal sunt prelucrate în scopul și pentru îndeplinirea atribuțiilor legale ale instituției.</p>
+        <p><input type="checkbox" name="2" value="da" required> Am luat la cunoștință că informațiile din cererea depusă și din actele anexate la aceasta, vor fi prelucrate de instituție cu respectarea prevederilor Regulamentului (UE) 2016/679 privind protecția persoanelor fizice în ceea ce privește prelucrarea datelor cu caracter personal, și libera circulație a acestor date.</p>
+        <p>Sunt de acord cu supravegherea video a copilului meu în sala de grupă: <select name="3" required><option value="da">Da</option><option value="nu">Nu</option></select></p>
+      </fieldset>
+
+      <label>Program ales:
+        <select name="program">
+          <option value="normal">Normal (8:00-12:30)</option>
+          <option value="prelungit">Prelungit (8:00-18:00)</option>
+        </select>
+      </label>
+
+      <label>Grupa:
+        <select name="5">
+          <option value="mica">MICA 3-4 ani</option>
+          <option value="mica_b">MICA B 2-3 ani</option>
+          <option value="mijlocie">MIJLOCIE 4-5 ani</option>
+          <option value="mare">MARE 5-6 ani</option>
+        </select>
+      </label>
+
+      <fieldset>
+        <legend>Semnătură</legend>
+        <canvas id="signature" width="420" height="140" class="signature"></canvas>
+        <input type="hidden" name="signature_data" id="signature_data">
+        <div class="sig-controls">
+          <button type="button" id="clearSig">Șterge semnătura</button>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit" class="btn-primary">Generează contracte PDF</button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    (function(){
+      const canvas = document.getElementById('signature');
+      const ctx = canvas.getContext('2d');
+      ctx.lineWidth = 2;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      let drawing = false;
+
+      function getPos(e){
+        const rect = canvas.getBoundingClientRect();
+        return { x: (e.clientX - rect.left), y: (e.clientY - rect.top) };
+      }
+
+      canvas.addEventListener('pointerdown', (e) => { drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); });
+      canvas.addEventListener('pointermove', (e) => { if(!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); });
+      canvas.addEventListener('pointerup', () => { drawing = false; });
+      canvas.addEventListener('pointerleave', () => { drawing = false; });
+
+      document.getElementById('clearSig').addEventListener('click', () => { ctx.clearRect(0,0,canvas.width,canvas.height); });
+
+      // Load from localStorage
+      const form = document.querySelector('form');
+      const inputs = form.querySelectorAll('input, select, textarea');
+      inputs.forEach(input => {
+        const saved = localStorage.getItem(input.name);
+        if (saved !== null) {
+          if (input.type === 'checkbox' || input.type === 'radio') {
+            input.checked = saved === 'true';
+          } else {
+            input.value = saved;
+          }
+        }
+      });
+      const savedSig = localStorage.getItem('signature_data');
+      if (savedSig) {
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0);
+        img.src = savedSig;
+      }
+
+      form.addEventListener('submit', function(ev){
+        const dataUrl = canvas.toDataURL();
+        document.getElementById('signature_data').value = dataUrl;
+
+        // Save to localStorage
+        inputs.forEach(input => {
+          if (input.type === 'checkbox' || input.type === 'radio') {
+            localStorage.setItem(input.name, input.checked ? 'true' : 'false');
+          } else {
+            localStorage.setItem(input.name, input.value);
+          }
+        });
+        localStorage.setItem('signature_data', dataUrl);
+      });
+    })();
+  </script>
+</body>
+</html>

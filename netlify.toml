@@ -1,0 +1,17 @@
+[build]
+  publish = "site"
+  command = ""
+
+[[redirects]]
+  from = "/generate"
+  to = "https://contracte-marshmallow.onrender.com/generate"
+  status = 200
+  force = true
+  methods = ["POST", "GET", "OPTIONS", "PUT", "PATCH", "DELETE"]
+
+[[redirects]]
+  from = "/download/*"
+  to = "https://contracte-marshmallow.onrender.com/download/:splat"
+  status = 200
+  force = true
+  methods = ["GET", "OPTIONS"]

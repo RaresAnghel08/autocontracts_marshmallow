@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Descarcare documente</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="container">
+    <section class="success-card">
+      <div class="success-header">
+        <div class="success-icon">✓</div>
+        <div>
+          <h1>Documentele sunt gata</h1>
+          <p class="muted">Am generat documentele — folosiți butoanele <em>Descarcă</em> pentru a le salva local.</p>
+        </div>
+      </div>
+
+      {% if failed %}
+        <div class="error" role="alert">
+          <strong>Conversia la PDF a eșuat pentru:</strong>
+          <ul>
+            {% for f in failed %}
+              <li>{{ f }}</li>
+            {% endfor %}
+          </ul>
+          <p class="muted">Instalați Microsoft Word sau LibreOffice (`soffice`) pe acest server pentru a genera PDF-urile automat.</p>
+        </div>
+      {% endif %}
+
+      <div class="files-list">
+        {% for name, link in files %}
+          <div class="file-item">
+            <div class="file-meta">
+              <span class="file-icon pdf">PDF</span>
+              <div class="file-name">{{ name }}</div>
+            </div>
+            <div class="file-actions">
+              <a class="btn" href="{{ link }}" download>Descarcă</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="help small muted">Dacă descărcarea nu pornește automat, folosiți butoanele <em>Descarcă</em>. Dacă browserul blochează descărcările multiple, apăsați fiecare buton în parte.</div>
+
+      <div class="actions-row">
+        <a class="btn-outline" href="/">Înapoi la formular</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Auto-download removed intentionally to avoid browser pop-up/blocking issues -->
+</body>
+</html>
