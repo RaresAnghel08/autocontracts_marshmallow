@@ -37,6 +37,7 @@ input[type=text],input[type=email],input[type=date],select{width:100%;padding:8p
 .file-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px solid #eef2f7;border-radius:10px;margin-bottom:10px;background:linear-gradient(180deg,#ffffff,#fbfdff)}
 .file-meta{display:flex;align-items:center;gap:12px}
 .file-icon.pdf{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:#fee2e2;color:#b91c1c;border-radius:8px;font-weight:700}
+.file-icon.docx{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:#dbeafe;color:#1d4ed8;border-radius:8px;font-weight:700}
 .file-name{font-weight:600}
 .file-actions .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none}
 .btn{display:inline-block}

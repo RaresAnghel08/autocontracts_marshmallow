@@ -33,7 +33,7 @@
         {% for name, link in files %}
           <div class="file-item">
             <div class="file-meta">
-              <span class="file-icon pdf">PDF</span>
+              <span class="file-icon {% if name.endswith('.pdf') %}pdf{% else %}docx{% endif %}">{% if name.endswith('.pdf') %}PDF{% else %}DOCX{% endif %}</span>
               <div class="file-name">{{ name }}</div>
             </div>
             <div class="file-actions">
