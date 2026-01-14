@@ -321,6 +321,25 @@ def download_file(file_id):
     if not file_info or not os.path.exists(file_info['path']):
         return "File not found", 404
     
+    # Clean up old files (older than 1 hour)
+    current_time = datetime.datetime.now().timestamp()
+    to_remove = []
+    for fid, finfo in app.file_downloads.items():
+        # Extract timestamp from file_id (it's at the end)
+        try:
+            timestamp = float(fid.split('_')[-1])
+            if current_time - timestamp > 3600:  # 1 hour
+                try:
+                    os.remove(finfo['path'])
+                except:
+                    pass
+                to_remove.append(fid)
+        except:
+            pass
+    
+    for fid in to_remove:
+        del app.file_downloads[fid]
+    
     # Determine MIME type
     if file_info['type'] == 'PDF':
         mimetype = 'application/pdf'
